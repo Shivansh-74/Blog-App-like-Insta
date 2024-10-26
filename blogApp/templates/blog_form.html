@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block title %}
+  
+{% endblock title %}
+{% block content %}
+  <h2>{% if form.instance.pk %} Edit Tweet {% else %} Create Tweet {% endif %}</h2>
+  <form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form.as_p}}
+  <button type="submit">Submit</button> 
+  <a href="{% url 'blog_list' %}">Go Back To Home Page</a>   
+</form>
+{% endblock content %}

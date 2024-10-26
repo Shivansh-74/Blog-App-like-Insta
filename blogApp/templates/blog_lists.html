@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block title %}
+  
+{% endblock title %}
+{% block content %}
+  <div class="w-[600px] h-[450px] overflow-auto scrollbar-hide   px-4 ">
+
+    <!-- <div class="flex gap-5">
+
+        {% for name in  blogs%}
+        <div>
+            <i class="fa-regular fa-face-smile text-6xl"></i>
+            
+            <h1>{{name.user}}</h1> 
+        </div>
+        {% endfor %}
+    </div> -->
+    {% for blog in blogs %}
+    <div class="py-3 flex justify-center items-center flex-col">
+      <div class="md:w-[100%] w-[60%]">
+
+        <h1 class="text-2xl my-1 py-3 cursor-pointer">
+          <span class="border rounded-[50%] py-1 px-2"><i class="fa-solid fa-user text-blue-800"></i></span> {{ blog.user }}
+        </h1>
+      </div>
+        <img src="{{ blog.photo.url }}" alt="" class="md:w-[100%] w-[350px] md:h-[300px] h-[350px] border rounded-[15px]">
+        <div class="md:w-[90%] w-[40%] flex justify-between py-4 mx-2">
+          <div class="md:w-[30%] w-[100%] md:mx-0 ml-[-50px] flex md:justify-between md:gap-1px gap-[50px]">
+
+            <i class="fa-solid fa-heart md:text-2xl text-1xl   duration-150 cursor-pointer" onclick="change(this) " id="like"></i>
+            
+            <i class="fa-solid fa-comment md:text-2xl text-1xl duration-150 cursor-pointer hover:text-gray-800"></i>
+          </div>
+          {% if blog.user == user %}
+            
+          <a href="{% url 'blog_edit' blog.id %}"><i class="fa-solid fa-pen-to-square md:text-2xl text-1xl duration-150 hover:text-blue-500"></i></a>
+          <a href="{% url 'blog_delete' blog.id %}"><i class="fa-solid fa-trash md:text-2xl text-1xl hover:text-red-600 duration-150"></i></a>
+          {% endif %}
+      
+        </div>
+        <div class="md:w-[100%] w-[60%]">
+
+          <h1 class="text-1xl font-bold">{{ blog.user }} ....... <span class="text-[0.90em] font-thin">{{ blog.text }}</span></h1>
+          <h1 class="text-[0.7em] text-gray-600"> {{blog.created_at}}</h1>
+        </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock content %}
+
+

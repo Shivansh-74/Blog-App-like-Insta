@@ -1,0 +1,102 @@
+{% load static tailwind_tags %}
+
+<!DOCTYPE html>
+<html lang="en"  x-data="{ darkMode: false }" :class="{ 'dark': darkMode }">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+          Blog App
+        {% endblock title %}
+    </title>
+    {% tailwind_css %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+
+*{
+    margin: 0;padding: 0;
+    .scrollbar-hide {
+      overflow: auto; /* Allows scrolling */
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+      display: none; /* Hide scrollbar for WebKit browsers */
+  }
+  
+  .scrollbar-hide {
+      scrollbar-width: none; /* Hide scrollbar for Firefox */
+  }
+  
+}
+</style>
+</head>
+<body class="w-[100%]">
+  
+  <div class="container md:w-[60%] w-[100%] shadow-xl	  mx-auto border border-red-100 dark:bg-gray-900 dark:text-white">
+    <div class="navbar flex items-center justify-between mx-auto  w-[70%] h-[50px] ">
+      {% if user.is_authenticated %}
+              
+                <h1 class="logo text-2xl font-bold  m-4">Welcome {{request.user}}</h1>
+                {% else %}
+                <div class="logo text-2xl font-bold  m-4">Blog App</div>
+              {% endif %}
+      
+      <button onclick="toggleDarkMode()" id="btn" class="bg-black text-white dark:bg-white dark:text-black rounded md:py-2 py-1 md:px-3 px-2 my-4">Change Mode  <i class="fa-regular fa-sun"></i></button>
+    </div>
+    <div class="w-[100%] md:h-[100vh] h-[85vh] flex flex-col gap-3 justify-center items-center ">
+      
+      {% block content %}
+      
+      {% endblock content %}
+      <div class="md:w-[60%] w-[80%] h-[40px] flex justify-between items-center">
+        
+              <a href="{% url 'blog_list' %}"><i class="fa-solid fa-house text-2xl"></i><span class="text-1xl py-1 mx-2">Home</span>
+              </a> 
+             
+              <a href="{% url 'blog_create' %}" class="py-3 px-3 my-3  rounded-[15px] "><i class="fa-solid fa-plus text-1xl"></i>Add New Blog</a>
+              {% if user.is_authenticated %}
+              <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit"> <i class="fa-solid fa-right-from-bracket"></i> Logout </button>
+              </form>
+                {% else %}
+                <a href="{% url 'login' %}"><i class="fa-solid fa-right-to-bracket text-2xl"></i ><span class="text-1xl py-1 mx-2">Login</span>
+              {% endif %}
+             </a> 
+            </div>
+
+        </div>
+    </div>
+    <style>
+        .liked {
+          color: red;
+        }
+      </style>
+      
+      <script>
+        function change(heartIcon) {
+          heartIcon.classList.toggle('liked');
+        }
+        const darkMode = localStorage.getItem('darkMode') === 'true';
+        if (darkMode) document.documentElement.classList.add('dark');
+      
+        var c=0
+        function toggleDarkMode() {
+          const isDark = document.documentElement.classList.toggle('dark');
+          const btn = document.getElementById('btn')
+          if (c==0){
+            btn.innerHTML = 'Change Mode  <i class="fa-solid fa-moon"></i>'
+            console.log(c)
+            c=1
+          }
+          else{
+            btn.innerHTML = 'Change Mode  <i class="fa-regular fa-sun"></i>'
+            console.log(c)
+            c=0
+          }
+          localStorage.setItem('darkMode', isDark);
+        }
+      </script>
+</body>
+</html>
