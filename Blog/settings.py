@@ -44,6 +44,9 @@ INSTALLED_APPS = [
 
 ]
 TAILWIND_APP_NAME = 'theme'
+ALLOWED_HOSTS = ['.vercel.app']
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
